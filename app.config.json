@@ -2,13 +2,13 @@
     "apps": [
         {
             "name": "admin-be",
-            "script": "yarn",
-            "args": "dev"
+            "script": "nodemon",
+            "args": "index.js"
         },
         {
             "name": "admin-fe",
             "cwd": "./client/admin",
-            "script": "yarn",
+            "script": "react-scripts",
             "args": "start"
         }
     ]
