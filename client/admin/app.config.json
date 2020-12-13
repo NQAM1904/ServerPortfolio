@@ -2,7 +2,7 @@
     "apps": [
         {
             "name": "admin-fe",
-            "script": "react-scripts",
+            "script": "npm",
             "args": "start"
         }
     ]
