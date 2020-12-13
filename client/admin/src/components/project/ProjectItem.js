@@ -10,14 +10,19 @@ const ProjectItem = props => {
     function onEdit(id) {
         props.onEdit(id);
     }
-
+    function formatSubstring(value) {
+        if (value.length > 25) {
+            return value.substring(0, 25) + '...'
+        }
+    }
     return (
         <tr>
             <td>{props.index + 1}</td>
             <td>{props.name}</td>
-            <td><img src={'http://localhost:4000/' + props.image} width="100" height="100" /></td>
-            <td>{props.github_url}</td>
-            <td>{props.deployed_url}</td>
+            <td><img src={'http://localhost:4000/' + props.image} width="100" height="100" alt="img" /></td>
+            <td>{formatSubstring(props.github_url)}</td>
+            <td>{formatSubstring(props.deployed_url)}</td>
+            <td>{props.nameCategory}</td>
             <td className="text-center">
                 <button className="btn btn-warning mr-10 white" onClick={() => onEdit(props._id)}>Sửa</button>
                 <button className="btn btn-danger" onClick={() => onDelete(props._id)}>Xóa</button>

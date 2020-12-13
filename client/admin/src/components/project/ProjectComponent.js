@@ -68,7 +68,8 @@ class ProjectComponent extends Component {
                         });
 
                     }
-                    console.log(index)
+                    // console.log(index)
+                    window.location.reload();
 
 
 
@@ -111,18 +112,11 @@ class ProjectComponent extends Component {
         e.preventDefault();
         const { txtName, txtUrl, txtGitHub, image, category } = this.state;
         var bodyFormData = new FormData();
-
         bodyFormData.append('name', txtName);
         bodyFormData.append('deployed_url', txtUrl);
         bodyFormData.append('github_url', txtGitHub);
         bodyFormData.append('image', image);
         bodyFormData.append('category', category[0]._id);
-
-        var requestOptions = {
-            method: 'POST',
-            body: bodyFormData,
-            redirect: 'follow'
-        };
 
         axios.post(`${API_URL}/projects/add`, bodyFormData, {
             headers: {
@@ -150,6 +144,7 @@ class ProjectComponent extends Component {
                         <th>Hình ảnh</th>
                         <th>Page-Url</th>
                         <th>Github-URL</th>
+                        <th>Danh mục</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -211,7 +206,7 @@ class ProjectComponent extends Component {
                             <input className="form-control" type="text" name="txtGitHub" value={txtGitHub} onChange={this.onChange} />
 
                             <label>Danh Mục</label>
-                            <Form.Control size="as" as="select">
+                            <Form.Control size="as" as="select" onChange={this.onChange}>
                                 {this.state.category.map((item, index) => {
                                     return (
                                         <option key={index}>{item.nameCategory}</option>
