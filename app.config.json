@@ -2,8 +2,8 @@
     "apps": [
         {
             "name": "admin-be",
-            "script": "nodemon",
-            "args": "index.js"
+            "script": "yarn",
+            "args": "dev"
         },
         {
             "name": "admin-fe",
