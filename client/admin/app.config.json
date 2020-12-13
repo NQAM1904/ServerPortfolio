@@ -2,7 +2,7 @@
     "apps": [
         {
             "name": "admin-fe",
-            "script": "yarn",
+            "script": "react-scripts",
             "args": "start"
         }
     ]
