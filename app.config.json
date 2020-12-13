@@ -8,7 +8,7 @@
         {
             "name": "admin-fe",
             "cwd": "./client/admin",
-            "script": "react-scripts",
+            "script": "yarn",
             "args": "start"
         }
     ]
