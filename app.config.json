@@ -4,12 +4,6 @@
             "name": "admin-be",
             "script": "nodemon",
             "args": "index.js"
-        },
-        {
-            "name": "admin-fe",
-            "cwd": "./client/admin",
-            "script": "yarn",
-            "args": "start"
         }
     ]
 }

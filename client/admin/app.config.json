@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "admin-fe",
+            "script": "yarn",
+            "args": "start"
+        }
+    ]
+}
