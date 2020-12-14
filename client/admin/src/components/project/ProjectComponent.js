@@ -15,7 +15,7 @@ class ProjectComponent extends Component {
             txtGitHub: '',
             image: '',
             selectCategory: '',
-            category: [],
+            category: null,
             showModal: false,
             isLoading: false
 
@@ -28,9 +28,9 @@ class ProjectComponent extends Component {
                 .then(res => {
                     this.setState({
                         isLoading: false,
-                        projects: res.data,
+                        projects: res.data.project,
                     });
-                    console.log(this.state.projects)
+                    // console.log({ res, item: this.state.projects })
                 })
                 .catch(err => console.log(err))
         }
@@ -39,7 +39,7 @@ class ProjectComponent extends Component {
         }
     }
     componentDidMount() {
-        console.log('comonentDidMount')
+        // console.log('comonentDidMount')
         this.getData();
 
         axios.get(`${API_URL}/category`)
@@ -47,6 +47,7 @@ class ProjectComponent extends Component {
                 this.setState({
                     category: res.data
                 });
+                // console.log({ res, category: this.state.category })
             })
             .catch(err => console.log(err))
     }
@@ -102,7 +103,7 @@ class ProjectComponent extends Component {
                         deployed_url={item.deployed_url}
                         github_url={item.github_url}
                         image={item.image}
-                        // nameCategory={item.category.nameCategory}
+                        nameCategory={item.category[0].nameCategory}
                         onDelete={this.onDelete}
                     />
                 )
@@ -112,7 +113,6 @@ class ProjectComponent extends Component {
     }
 
     onSave = (e) => {
-
         e.preventDefault();
         const { txtName, txtUrl, txtGitHub, image, selectCategory } = this.state;
         var bodyFormData = new FormData();
@@ -129,6 +129,9 @@ class ProjectComponent extends Component {
         })
             .then(result => {
                 console.log(result)
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000)
 
             })
             .catch(error => console.log('error', error));
@@ -138,7 +141,7 @@ class ProjectComponent extends Component {
     render() {
         const { projects, title, txtName, txtUrl, txtGitHub, selectCategory, showModal, isLoading } = this.state;
         // console.log(this.state)
-        console.log('render')
+        // console.log('render')
         const showProject = isLoading === true ?
             (<div className="text-center">
                 <Spinner animation="grow" variant="success" >
@@ -176,11 +179,7 @@ class ProjectComponent extends Component {
 
 
                 {showProject}
-                {/* {isLoading === true ? (<div className="text-center">
-                    <Spinner animation="grow" variant="success" >
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                </div>) : ''} */}
+
                 <Modal
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
@@ -220,7 +219,8 @@ class ProjectComponent extends Component {
 
                             <label>Danh Mục</label>
                             <select className="form-control" size="as" as="select" onChange={this.onChange} value={selectCategory} name="selectCategory">
-                                {this.state.category.map((item, index) => {
+                                <option>---Thêm danh mục---</option>
+                                {this.state.category && this.state.category.map((item, index) => {
                                     // console.log(selectCategory)
                                     return (
                                         <option value={item._id} key={index} > { item.nameCategory}</option>
