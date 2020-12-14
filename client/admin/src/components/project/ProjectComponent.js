@@ -3,7 +3,6 @@ import { Button, Form, Modal, Table, Spinner } from 'react-bootstrap';
 import API_URL from '../../settings/config';
 import axios from 'axios';
 import ProjectItem from './ProjectItem';
-
 class ProjectComponent extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +14,7 @@ class ProjectComponent extends Component {
             txtUrl: '',
             txtGitHub: '',
             image: '',
-            selectedCategory: null,
+            selectCategory: '',
             category: [],
             showModal: false,
             isLoading: false
@@ -23,18 +22,25 @@ class ProjectComponent extends Component {
         }
 
     }
+    getData = async () => {
+        try {
+            await axios.get(`${API_URL}/projects`)
+                .then(res => {
+                    this.setState({
+                        isLoading: false,
+                        projects: res.data,
+                    });
+                    console.log(this.state.projects)
+                })
+                .catch(err => console.log(err))
+        }
+        catch (e) {
+            console.log('error', e)
+        }
+    }
     componentDidMount() {
-        this.setState({
-            isLoading: true
-        })
-        axios.get(`${API_URL}/projects`)
-            .then(res => {
-                this.setState({
-                    isLoading: false,
-                    projects: res.data,
-                });
-            })
-            .catch(err => console.log(err))
+        console.log('comonentDidMount')
+        this.getData();
 
         axios.get(`${API_URL}/category`)
             .then(res => {
@@ -68,11 +74,7 @@ class ProjectComponent extends Component {
                         });
 
                     }
-                    // console.log(index)
                     window.location.reload();
-
-
-
                 }
             })
             .catch(err => console.log(err))
@@ -100,6 +102,7 @@ class ProjectComponent extends Component {
                         deployed_url={item.deployed_url}
                         github_url={item.github_url}
                         image={item.image}
+                        // nameCategory={item.category.nameCategory}
                         onDelete={this.onDelete}
                     />
                 )
@@ -109,27 +112,33 @@ class ProjectComponent extends Component {
     }
 
     onSave = (e) => {
+
         e.preventDefault();
-        const { txtName, txtUrl, txtGitHub, image, category } = this.state;
+        const { txtName, txtUrl, txtGitHub, image, selectCategory } = this.state;
         var bodyFormData = new FormData();
         bodyFormData.append('name', txtName);
         bodyFormData.append('deployed_url', txtUrl);
         bodyFormData.append('github_url', txtGitHub);
         bodyFormData.append('image', image);
-        bodyFormData.append('category', category[0]._id);
+        bodyFormData.append('category', selectCategory);
 
         axios.post(`${API_URL}/projects/add`, bodyFormData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result)
+
+            })
             .catch(error => console.log('error', error));
 
 
     }
     render() {
-        const { projects, title, txtName, txtUrl, txtGitHub, showModal, isLoading } = this.state;
+        const { projects, title, txtName, txtUrl, txtGitHub, selectCategory, showModal, isLoading } = this.state;
+        // console.log(this.state)
+        console.log('render')
         const showProject = isLoading === true ?
             (<div className="text-center">
                 <Spinner animation="grow" variant="success" >
@@ -160,14 +169,18 @@ class ProjectComponent extends Component {
                     <Button type="button" className="btn btn-primary mb-10" onClick={() => {
                         this.setState({
                             showModal: true,
-                            title: 'Thêm danh mục'
+                            title: 'Thêm project'
                         })
                     }}>Thêm Project</Button>
                 </div>
 
 
                 {showProject}
-
+                {/* {isLoading === true ? (<div className="text-center">
+                    <Spinner animation="grow" variant="success" >
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                </div>) : ''} */}
                 <Modal
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
@@ -206,13 +219,14 @@ class ProjectComponent extends Component {
                             <input className="form-control" type="text" name="txtGitHub" value={txtGitHub} onChange={this.onChange} />
 
                             <label>Danh Mục</label>
-                            <Form.Control size="as" as="select" onChange={this.onChange}>
+                            <select className="form-control" size="as" as="select" onChange={this.onChange} value={selectCategory} name="selectCategory">
                                 {this.state.category.map((item, index) => {
+                                    // console.log(selectCategory)
                                     return (
-                                        <option key={index}>{item.nameCategory}</option>
+                                        <option value={item._id} key={index} > { item.nameCategory}</option>
                                     )
                                 })}
-                            </Form.Control>
+                            </select>
 
 
                         </Modal.Body>

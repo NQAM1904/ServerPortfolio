@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/project.model');
+const Category = require('../models/category.model');
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -28,10 +29,14 @@ function ResultModel(message, data) {
     }
 }
 
-router.route('/').get((req, res) => {
-    Project.find()
-        .then(project => res.json(project))
-        .catch(err => res.status(400).json('Error:', + err));
+router.route('/').get(async (req, res) => {
+    try {
+        await Project.find().populate({ path: 'category', model: Category })
+            .then(project => res.status(200).json({ project }))
+            .catch(err => res.status(500).json({ message: err.message }));
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
 });
 
 // add Project
