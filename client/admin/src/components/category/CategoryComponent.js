@@ -86,6 +86,8 @@ class CategoryComponent extends Component {
                     />
                 );
             });
+        } else {
+            return <div>Lỗi không có dữ liệu</div>
         }
         return result;
     }

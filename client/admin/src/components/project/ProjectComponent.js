@@ -108,6 +108,8 @@ class ProjectComponent extends Component {
                     />
                 )
             })
+        } else {
+            return <div> Không có dữ liệu</div>
         }
         return result;
     }
