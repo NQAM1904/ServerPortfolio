@@ -109,7 +109,11 @@ class ProjectComponent extends Component {
                 )
             })
         } else {
-            return <div> Không có dữ liệu</div>
+            return (<div className="text-center">
+                <Spinner animation="grow" variant="success" >
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            </div>)
         }
         return result;
     }
