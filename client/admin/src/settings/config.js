@@ -1,3 +1,3 @@
-const API_URL = 'http://mern-stack-admin.herokuapp.com';
+const API_URL = 'https://mern-stack-admin.herokuapp.com';
 
 export default API_URL;
