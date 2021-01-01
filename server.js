@@ -6,7 +6,7 @@ const cors = require('cors');
 const path = require(path);
 // connect mongodb
 require('./db');
-
+const path = require('path');
 // khai router
 const categoryController = require('./controllers/category');
 const projectController = require('./controllers/projects');
@@ -19,12 +19,12 @@ app.use(express.static('upload'))
 app.use('/category', categoryController);
 app.use('/projects', projectController);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/admin/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'admin', 'build', 'index.html'))
-  })
-}
+app.use(express.static(path.join(__dirname, 'build')));
+
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 
 
