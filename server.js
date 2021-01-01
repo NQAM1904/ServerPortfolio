@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');//https://topdev.vn/blog/bodyparser-trong-express-js/
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
-const path = require(path);
 // connect mongodb
 require('./db');
 const path = require('path');
