@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');//https://topdev.vn/blog/bodyparser-trong-express-js/
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 const cors = require('cors');
 const path = require(path);
 // connect mongodb
@@ -14,6 +14,7 @@ const projectController = require('./controllers/projects');
 app.use(cors()); //https://topdev.vn/blog/cors-la-gi/
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use(express.static('upload'))
 
 app.use('/category', categoryController);
