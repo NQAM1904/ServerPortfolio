@@ -134,15 +134,13 @@ class ProjectComponent extends Component {
             }
         })
             .then(result => {
-                console.log(result)
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000)
-
+                console.log(result);
+                this.setState({
+                    showModal: false
+                })
+                this.getData();
             })
             .catch(error => console.log('error', error));
-
-
     }
     render() {
         const { projects, title, txtName, txtUrl, txtGitHub, selectCategory, showModal, isLoading } = this.state;

@@ -15,7 +15,7 @@ const route = [
     },
 
     {
-        path: '/projects',
+        path: '/project',
         exact: false,
         main: () => <ProjectContainer />
     },

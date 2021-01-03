@@ -10,7 +10,7 @@ class MenuComponent extends Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link as={Link} to="/categorys">Danh mục</Nav.Link>
-                        <Nav.Link as={Link} to="/projects">Project</Nav.Link>
+                        <Nav.Link as={Link} to="/project">Project</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
