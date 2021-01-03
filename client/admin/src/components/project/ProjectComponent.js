@@ -144,7 +144,8 @@ class ProjectComponent extends Component {
                 console.log(result);
                 this.setState({
                     showModal: false
-                }, () => this.getData())
+                }, () => this.getData());
+
 
             }).catch(error => console.log('error', error));
         } catch (error) {
