@@ -1,5 +1,6 @@
 const express = require('express');
 var fileUpload = require('express-fileupload');
+require('dotenv').config();
 const app = express();
 const bodyParser = require('body-parser');//https://topdev.vn/blog/bodyparser-trong-express-js/
 const PORT = process.env.PORT || 4000;
