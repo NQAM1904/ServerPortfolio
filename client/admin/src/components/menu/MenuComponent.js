@@ -9,7 +9,7 @@ class MenuComponent extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link as={Link} to="/category">Danh mục</Nav.Link>
+                        <Nav.Link as={Link} to="/categorys">Danh mục</Nav.Link>
                         <Nav.Link as={Link} to="/projects">Project</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

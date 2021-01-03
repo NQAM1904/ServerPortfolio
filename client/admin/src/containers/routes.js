@@ -9,15 +9,11 @@ const route = [
         main: () => <HomeContainer />
     },
     {
-        path: '/category',
+        path: '/categorys',
         exact: false,
         main: () => <CategoryContainer />
     },
-    // {
-    //     path: '/category/:id',
-    //     exact: false,
-    //     main: ({ match }) => <CategoryContainer match={match} />
-    // },
+
     {
         path: '/projects',
         exact: false,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Modal, Table } from 'react-bootstrap'
+import { Button, Modal, Table, Spinner } from 'react-bootstrap'
 import CategoryItem from './CategoryItem';
 import API_URL from '../../settings/config';
 import axios from 'axios';
@@ -14,8 +14,7 @@ class CategoryComponent extends Component {
             txtName: ''
         }
     }
-    componentDidMount() {
-
+    getCategory = () => {
         axios.get(`${API_URL}/category`)
             .then(res => {
                 this.setState({
@@ -23,13 +22,13 @@ class CategoryComponent extends Component {
                 });
             })
             .catch(err => console.log(err))
-
-
+    }
+    async componentDidMount() {
+        await this.getCategory();
     }
     onEdit = (id) => {
         axios(`${API_URL}/category/${id}`)
             .then(res => {
-
                 this.setState({
                     id: id,
                     showModal: true,
@@ -38,8 +37,6 @@ class CategoryComponent extends Component {
                 });
                 console.log(this.state.id)
             }).catch(error => console.log(error))
-
-
     }
     onDelete = (id) => {
         const { categorys } = this.state;
@@ -49,14 +46,9 @@ class CategoryComponent extends Component {
                     var index = this.findIndex(categorys, id);
                     if (index !== -1) {
                         categorys.splice(index, 1);
-                        this.setState({
-                            categorys: categorys
-                        });
-
+                        window.location.reload();
+                        // this.getCategory();
                     }
-                    console.log(index)
-                    window.location.reload();
-
                 }
             })
             .catch(err => console.log(err))
@@ -87,7 +79,9 @@ class CategoryComponent extends Component {
                 );
             });
         } else {
-            return <div>Lỗi không có dữ liệu</div>
+            return (<Spinner animation="grow" variant="success">
+                <span className="sr-only">Loading...</span>
+            </Spinner>)
         }
         return result;
     }
@@ -108,17 +102,21 @@ class CategoryComponent extends Component {
             axios.post(`${API_URL}/category/update/${id}`, {
                 nameCategory: txtName,
             }).then(res => {
-                console.log(res);
-                window.location.reload();
+                this.setState({ showModal: !this.state.showModal })
+                this.getCategory();
             }).catch(error => console.log(error))
         } else {
-
+            this.setState({
+                txtName: '',
+            })
             axios.post(`${API_URL}/category/add`, {
                 nameCategory: txtName,
-            }).then(res => {
-                console.log(res)
-                window.location.reload();
-            }).catch(error => console.log(error))
+            })
+                .then(res => {
+                    this.setState({ showModal: !this.state.showModal, txtName: '' })
+                    this.getCategory();
+                })
+                .catch(error => console.log(error))
         }
     }
 
@@ -166,7 +164,7 @@ class CategoryComponent extends Component {
                         </Modal.Body>
 
                         <Modal.Footer>
-                            <Button variant="secondary" type='button' onClick={() => { this.setState({ showModal: false }) }}>Đóng</Button>
+                            <Button variant="secondary" type='button' onClick={() => { this.setState({ showModal: false, txtName: '' }) }}>Đóng</Button>
                             <Button variant="primary" type="submit">Save changes</Button>
                         </Modal.Footer>
                     </form>
