@@ -2,24 +2,25 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../models/project.model');
 const Category = require('../models/category.model');
-const multer = require('multer');
+const sendUploadToGCS = require('../service/upload')
+// const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: function (request, file, callback) {
-        callback(null, './upload/');
-    },
-    filename: function (request, file, callback) {
+// const storage = multer.diskStorage({
+//     destination: function (request, file, callback) {
+//         callback(null, './upload/');
+//     },
+//     filename: function (request, file, callback) {
 
-        callback(null, Date.now() + file.originalname)
-    },
-});
+//         callback(null, Date.now() + file.originalname)
+//     },
+// });
 
-const upload = multer({
-    storage: storage,
-    limits: {
-        fieldSize: 1024 * 1024 * 3,
-    },
-})
+// const upload = multer({
+//     storage: storage,
+//     limits: {
+//         fieldSize: 1024 * 1024 * 3,
+//     },
+// })
 
 function ResultModel(message, data) {
     return {
@@ -41,10 +42,11 @@ router.route('/').get(async (req, res) => {
 
 // add Project
 
-router.route('/add').post(upload.single('image'), (req, res) => {
-    var image = req.file.path
+router.route('/add').post(async (req, res) => {
+    var image = await sendUploadToGCS(req)
+    // var image = req.file.path
     const { name, deployed_url, github_url, category } = req.body
-    image = image.split('\\')[1]
+    // image = image.split('\\')[1]
     const newProject = new Project({ name, category, deployed_url, github_url, image });
     newProject.save()
         .then(() => {

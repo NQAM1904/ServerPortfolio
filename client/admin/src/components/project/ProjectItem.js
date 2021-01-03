@@ -19,7 +19,7 @@ const ProjectItem = props => {
         <tr>
             <td>{props.index + 1}</td>
             <td>{props.name}</td>
-            <td><img src={'http://mern-stack-admin.herokuapp.com/' + props.image} width="80" height="80" alt="img" /></td>
+            <td><img src={props.image} width="80" height="80" alt="img" /></td>
             <td>{formatSubstring(props.github_url)}</td>
             <td>{formatSubstring(props.deployed_url)}</td>
             <td>{props.nameCategory}</td>
