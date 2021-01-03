@@ -15,7 +15,7 @@ class CategoryComponent extends Component {
         }
     }
     getCategory = () => {
-        axios.get(`${API_URL}/category`)
+        axios.get(`${API_URL}/api/category`)
             .then(res => {
                 this.setState({
                     categorys: res.data,
@@ -27,7 +27,7 @@ class CategoryComponent extends Component {
         await this.getCategory();
     }
     onEdit = (id) => {
-        axios(`${API_URL}/category/${id}`)
+        axios(`${API_URL}/api/category/${id}`)
             .then(res => {
                 this.setState({
                     id: id,
@@ -40,7 +40,7 @@ class CategoryComponent extends Component {
     }
     onDelete = (id) => {
         const { categorys } = this.state;
-        axios.delete(`${API_URL}/category/${id}`)
+        axios.delete(`${API_URL}/api/category/${id}`)
             .then(res => {
                 if (res.status === 200) {
                     var index = this.findIndex(categorys, id);
@@ -99,7 +99,7 @@ class CategoryComponent extends Component {
         var { txtName, id } = this.state;
         console.log(id)
         if (id) {
-            axios.post(`${API_URL}/category/update/${id}`, {
+            axios.post(`${API_URL}/api/category/update/${id}`, {
                 nameCategory: txtName,
             }).then(res => {
                 this.setState({ showModal: !this.state.showModal })
@@ -109,7 +109,7 @@ class CategoryComponent extends Component {
             this.setState({
                 txtName: '',
             })
-            axios.post(`${API_URL}/category/add`, {
+            axios.post(`${API_URL}/api/category/add`, {
                 nameCategory: txtName,
             })
                 .then(res => {

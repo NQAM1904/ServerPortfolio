@@ -24,7 +24,7 @@ class ProjectComponent extends Component {
     }
     getData = async () => {
         try {
-            await axios.get(`${API_URL}/projects`)
+            await axios.get(`${API_URL}/api/projects`)
                 .then(res => {
                     this.setState({
                         isLoading: false,
@@ -42,7 +42,7 @@ class ProjectComponent extends Component {
         // console.log('comonentDidMount')
         this.getData();
 
-        axios.get(`${API_URL}/category`)
+        axios.get(`${API_URL}/api/category`)
             .then(res => {
                 this.setState({
                     category: res.data
@@ -63,7 +63,7 @@ class ProjectComponent extends Component {
     onDelete = (id) => {
         const { projects } = this.state;
         this.setState({ isLoading: true })
-        axios.delete(`${API_URL}/projects/${id}`)
+        axios.delete(`${API_URL}/api/projects/${id}`)
             .then(res => {
                 if (res.status === 200) {
                     var index = this.findIndex(projects, id);
@@ -128,7 +128,7 @@ class ProjectComponent extends Component {
         bodyFormData.append('image', image);
         bodyFormData.append('category', selectCategory);
 
-        axios.post(`${API_URL}/projects/add`, bodyFormData, {
+        axios.post(`${API_URL}/api/projects/add`, bodyFormData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

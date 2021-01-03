@@ -18,8 +18,8 @@ app.use(fileUpload());
 
 app.use(express.static('upload'))
 
-app.use('/category', categoryController);
-app.use('/projects', projectController);
+app.use('/api/category', categoryController);
+app.use('/api/projects', projectController);
 
 app.use(express.static(path.join(__dirname, 'build')));
 
