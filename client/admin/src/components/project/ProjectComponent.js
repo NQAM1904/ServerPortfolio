@@ -14,11 +14,12 @@ class ProjectComponent extends Component {
             txtUrl: '',
             txtGitHub: '',
             image: '',
+            imageName: '',
             selectCategory: '',
             category: null,
             showModal: false,
-            isLoading: false
-
+            isLoading: false,
+            uploadPercentage: 0
         }
 
     }
@@ -128,22 +129,30 @@ class ProjectComponent extends Component {
         bodyFormData.append('image', image);
         bodyFormData.append('category', selectCategory);
 
-        axios.post(`${API_URL}/api/projects/add`, bodyFormData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-            .then(result => {
+        try {
+            axios.post(`${API_URL}/api/projects/add`, bodyFormData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                // onUploadProgress: ProgressEvent => {
+                //     this.setState({
+                //         uploadPercentage: (parseInt(Math.round(ProgressEvent.loaded * 100) / ProgressEvent.total))
+                //     });
+                //     setTimeout(() => { this.state.uploadPercentage }, 10000)
+                // }
+            }).then(result => {
                 console.log(result);
                 this.setState({
                     showModal: false
-                })
-                this.getData();
-            })
-            .catch(error => console.log('error', error));
+                }, () => this.getData())
+
+            }).catch(error => console.log('error', error));
+        } catch (error) {
+            console.log(error)
+        }
     }
     render() {
-        const { projects, title, txtName, txtUrl, txtGitHub, selectCategory, showModal, isLoading } = this.state;
+        const { projects, title, txtName, txtUrl, txtGitHub, selectCategory, showModal, isLoading, image } = this.state;
         // console.log(this.state)
         // console.log('render')
         const showProject = isLoading === true ?
@@ -209,12 +218,21 @@ class ProjectComponent extends Component {
                                 custom
                                 type="file" onChange={(e) => {
                                     this.setState({
-                                        image: e.target.files[0]
+                                        image: e.target.files[0],
+                                        imageName: e.target.files[0].name,
                                     });
                                     console.log(e.target.files[0])
                                 }
                                 }
+
                             />
+                            {this.state.imageName}
+                            {this.state.image ? <div className="">
+                                <div style={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
+                                    <img src={URL.createObjectURL(image)} width="100%" height="auto" alt={this.state.imageName} />
+                                </div>
+                            </div> : null
+                            }
                             <label>URL</label>
                             <input className="form-control" type="text" name="txtUrl" value={txtUrl} onChange={this.onChange} />
 
